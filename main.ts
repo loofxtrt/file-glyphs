@@ -1,4 +1,4 @@
-import { Plugin } from 'obsidian';
+import { Plugin, setIcon } from 'obsidian';
 
 export default class FileGlyphsMain extends Plugin {
 	onload() {
@@ -46,8 +46,10 @@ export default class FileGlyphsMain extends Plugin {
 			}
 
 			if (!glyphAlreadyAdded) {
-				const glyph = document.createElement('i');
-				glyph.classList.add('glyph', 'lucide', 'lucide-folder');
+				const glyph = document.createElement('div');
+				//glyph.classList.add('glyph', 'lucide', 'lucide-folder');
+				glyph.classList.add('glyph');
+				setIcon(glyph, glyphId);
 				f.prepend(glyph);
 			}
 		});
