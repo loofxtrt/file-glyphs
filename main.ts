@@ -12,23 +12,42 @@ export default class FileGlyphsMain extends Plugin {
 		folders.forEach(f => {
 			const glyphAlreadyAdded = f.querySelector('.glyph');
 			
-			let glyphContent = '📁';
+			// let glyphContent = '📁';
+			// switch (f.textContent) {
+			// 	case '_archive':
+			// 		glyphContent = '🗄️';
+			// 		break;
+			// 	case '_attachments':
+			// 		glyphContent = '🔗';
+			// 		break;
+			// 	case '_icons':
+			// 		glyphContent = '🚧';
+			// 		break;
+			// }
+
+			// if (!glyphAlreadyAdded) {
+			// 	const glyph = document.createElement('span');
+			// 	glyph.textContent = glyphContent;
+			// 	glyph.classList.add('glyph');
+			// 	f.prepend(glyph);
+			// }
+
+			let glyphId: string = 'lucide-folder';
 			switch (f.textContent) {
 				case '_archive':
-					glyphContent = '🗄️';
+					glyphId = 'lucide-archive';
 					break;
 				case '_attachments':
-					glyphContent = '🔗';
+					glyphId = 'lucide-link';
 					break;
 				case '_icons':
-					glyphContent = '🚧';
+					glyphId = 'lucide-traffic-cone';
 					break;
 			}
 
 			if (!glyphAlreadyAdded) {
-				const glyph = document.createElement('span');
-				glyph.textContent = glyphContent;
-				glyph.classList.add('glyph');
+				const glyph = document.createElement('i');
+				glyph.classList.add('glyph', 'lucide', 'lucide-folder');
 				f.prepend(glyph);
 			}
 		});
