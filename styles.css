@@ -19,11 +19,19 @@
 }
 
 .faint-entry .glyph svg, .faint-entry {
-	/*color: var(--text-faint) !important;*/
-
-	/* escurecer mais ainda a cor pra ter uma diferença clara */
-	color: color-mix(in srgb, var(--text-faint) 80%, black 20%);
 	font-style: italic;
+
+	/*
+		por algum motivo não funciona
+		muted seria o mais apropiado, mas só o faint funciona, ao mesmo no github theme
+		color: var(--text-muted) !important;
+	*/
+
+	/*
+		escurecer mais ainda a cor pra ter uma diferença clara
+		comentado até a parte do hover ser consertada
+		color: color-mix(in srgb, var(--text-faint) 80%, black 20%);
+	*/
 }
 
 /*

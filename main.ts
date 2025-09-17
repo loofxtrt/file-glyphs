@@ -1,14 +1,5 @@
 import { Plugin, setIcon } from 'obsidian';
 
-/*
-	- [x] folderS
-	- [ ] update real time
-	- [ ] kanban
-	- [ ] canvas
-	- [ ] map?
-	- [ ] fix svg não seguindo cor do hover
-*/
-
 function injectIcon(element: Element, iconId: string, isFaint: boolean = false) {
 	// criar a div do ícone e adicionar a classe glyph
 	const glyph = document.createElement('div');
