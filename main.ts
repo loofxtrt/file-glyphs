@@ -1,6 +1,11 @@
 import { Plugin, setIcon } from 'obsidian';
 
 function injectIcon(element: Element, iconId: string, isFaint: boolean = false) {
+	// garantir que o id seja válido pra api do obsidian/lucide
+	if (!iconId.startsWith('lucide-')) {
+		iconId = 'lucide-' + iconId;
+	}
+	
 	// criar a div do ícone e adicionar a classe glyph
 	const glyph = document.createElement('div');
 	glyph.classList.add('glyph');
@@ -110,19 +115,25 @@ export default class FileGlyphs extends Plugin {
 			// ícone de pastas padrão
 			// caso seja só uma pasta sem subdiretórios, recebe o ícone de pasta única
 			// caso contrário, recebe um ícone que indica que a pasta tem subdirs
-			let glyphId: string = hasSubdirs ? 'lucide-folders' : 'lucide-folder';
+			let glyphId: string = hasSubdirs ? 'folders' : 'folder';
 
 			// decidir o ícone que vai ser atribuído a pasta baseado no nome
 			// e caso nenhum dos casos especiais aconteça, é uma pasta comum
 			switch (folderName) {
 				case '_archive':
-					glyphId = 'lucide-archive';
+					glyphId = 'archive';
 					break;
 				case '_attachments':
-					glyphId = 'lucide-link-2';
+					glyphId = 'link-2';
 					break;
 				case '_icons':
-					glyphId = 'lucide-traffic-cone';
+					glyphId = 'traffic-cone';
+					//glyphId = 'blend';
+					//glyphId = 'spline-pointer';
+					//glyphId = 'pen-tool';
+					//glyphId = 'images';
+					//glyphId = 'eclipse';
+					//glyphId = 'logs';
 					break;
 				default:
 					isSpecial = false;
