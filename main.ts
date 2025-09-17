@@ -5,9 +5,10 @@ import { Plugin, setIcon } from 'obsidian';
 	- [ ] update real time
 	- [ ] kanban
 	- [ ] canvas
+	- [ ] map?
 */
 
-function injectIcon(element: Element, iconId: string) {
+function injectIcon(element: Element, iconId: string, isFaint: boolean = false) {
 	// criar a div do ícone e adicionar a classe glyph
 	const glyph = document.createElement('div');
 	glyph.classList.add('glyph');
@@ -19,6 +20,12 @@ function injectIcon(element: Element, iconId: string) {
 
 	// adicionar o ícone no começo do elemento
 	element.prepend(glyph);
+
+	// adicionar a classe pra deixar o texto todo mais fraco, caso especificado
+	if (isFaint) {
+		const parent = glyph.parentElement;
+		parent?.classList.add('faint-entry');
+	}
 }
 
 function removeIcon(element: Element) {
@@ -44,24 +51,36 @@ export default class FileGlyphs extends Plugin {
 		const directories = document.querySelectorAll('.nav-folder-title');
 		const files = document.querySelectorAll('.nav-file-title');
 
+		// const specialPrefixes = {
+		// 	'main': 'scroll-text',
+		// 	//'main': 'milestone',
+		// 	//'conventions': 'scroll-text',
+		// 	//'kanban': 'panels-top-left',
+		// 	//'canvas': 'layout-dashboard',
+		// 	//'map': 'map'
+		// }
+
 		files.forEach(f => {
+			const glyphAlreadyAdded = f.querySelector('.glyph');
 			const fileName = f.textContent?.trim() || '';
-			let glyphId: string | null = null; // pode ser null pq não é todo arquivo que vai receber um ícone
+
+			const fileTag = f.querySelector('.nav-file-tag')?.textContent?.trim() || '';
+
+			// não é todo arquivo que recebe um ícone. se for receber o id 'bug' deve ser mudado pelo if a baixo
+			// se o ícone passar e não for mudado mesmo assim, algo de errado aconteceu na verificação
+			let glyphId: string = 'bug';
 
 			// definir o ícone (ou a ausência dele) pelo nome do arquivo
-			// verificação feita com true pra que se possa usar o startswith
-			switch (true) {
-				case fileName === 'main':
+			// diferente de dirs, os files podem ser considerados especiais só por COMEÇAREM com uma palavra reservada
+			// em vez de precisarem ter o exato nome definido como especial
+			if (!glyphAlreadyAdded) {
+				if (fileName.startsWith('main')) {
 					glyphId = 'scroll-text';
-					break;
-				case fileName.startsWith('kanban'):
-					glyphId = 'panels-top-left';
-					break;
-				case fileName.startsWith('canvas'):
-					glyphId = ''
-					break;
-				default:
-					break;
+					injectIcon(f, glyphId);
+				} else if (fileTag && fileTag === 'canvas') {
+					glyphId = 'layout-dashboard';
+					injectIcon(f, glyphId);
+				}
 			}
 		});
 		
@@ -80,6 +99,12 @@ export default class FileGlyphs extends Plugin {
 			// se a pasta em questão tem um nome reservado pra ícones especiais
 			// é tido como true até o switch dizer o contrário
 			let isSpecial: boolean = true;
+
+			// var que vai ser passada pra func que adiciona os ícones
+			// além do ícone ser adicionado, se ela for true, tbm vai aplicar
+			// uma classe que no css vai fazer o texto da pasta inteira ser mais fraco que os outros
+			// por padrão, é aplicado em todas as pastas que começam com underscore
+			let isFaint: boolean = folderName.startsWith('_');
 
 			// se o elemento pai da pasta atual tiver o elemento .nav-folder-children
 			// e SE o .nav-folder-children tiver MAIS DE 0 ELEMENTOS, significa que a pasta tem subdiretórios
@@ -112,7 +137,7 @@ export default class FileGlyphs extends Plugin {
 
 			if (!glyphAlreadyAdded) {
 				// inserir o ícone caso ele já não esteja presente
-				injectIcon(d, glyphId);
+				injectIcon(d, glyphId, isFaint);
 			}
 		});
 	}

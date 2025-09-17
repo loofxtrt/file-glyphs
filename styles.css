@@ -2,7 +2,7 @@
 	--glyph-size: 14px;
 }
 
-.nav-folder-title .glyph svg {
+.nav-folder-title .glyph svg, .nav-file-title .glyph svg {
 	width: var(--glyph-size) !important;
 	height: var(--glyph-size) !important;
 	min-width: var(--glyph-size) !important;
@@ -10,6 +10,18 @@
 	max-width: var(--glyph-size) !important;
 	max-height: var(--glyph-size) !important;
 
+	/* centralização vertical */
+	text-align: center;
+	vertical-align: middle;
+
     /* distância entre o ícone e o texto do nome do arquivo/pasta */
     margin-right: 6px;
+}
+
+.faint-entry .glyph svg, .faint-entry {
+	/*color: var(--text-faint) !important;*/
+
+	/* escurecer mais ainda a cor pra ter uma diferença clara */
+	color: color-mix(in srgb, var(--text-faint) 80%, black 20%);
+	font-style: italic;
 }
