@@ -6,6 +6,7 @@ import { Plugin, setIcon } from 'obsidian';
 	- [ ] kanban
 	- [ ] canvas
 	- [ ] map?
+	- [ ] fix svg não seguindo cor do hover
 */
 
 function injectIcon(element: Element, iconId: string, isFaint: boolean = false) {
@@ -73,6 +74,8 @@ export default class FileGlyphs extends Plugin {
 			// definir o ícone (ou a ausência dele) pelo nome do arquivo
 			// diferente de dirs, os files podem ser considerados especiais só por COMEÇAREM com uma palavra reservada
 			// em vez de precisarem ter o exato nome definido como especial
+			//
+			// filetag também é considerado (a tag que aparece ao lado da entrada na árvore, como 'canvas', 'png' etc.)
 			if (!glyphAlreadyAdded) {
 				if (fileName.startsWith('main')) {
 					glyphId = 'scroll-text';
