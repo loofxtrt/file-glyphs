@@ -11,5 +11,5 @@
 	max-height: var(--glyph-size) !important;
 
     /* distância entre o ícone e o texto do nome do arquivo/pasta */
-    margin-right: 4px;
+    margin-right: 6px;
 }
