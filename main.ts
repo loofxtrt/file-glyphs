@@ -81,7 +81,10 @@ export default class FileGlyphs extends Plugin {
 					glyphId = 'layout-dashboard';
 				}
 
-				injectIcon(f, glyphId);
+				// injetar o ícone caso ele tenha sido definido
+				if (glyphId != 'bug') {
+					injectIcon(f, glyphId);
+				}
 			}
 		});
 		
