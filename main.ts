@@ -75,11 +75,13 @@ export default class FileGlyphs extends Plugin {
 			if (!glyphAlreadyAdded) {
 				if (fileName.startsWith('main')) {
 					glyphId = 'scroll-text';
-					injectIcon(f, glyphId);
+				} else if (fileName.startsWith('conventions')) {
+					glyphId = 'construction';
 				} else if (fileTag && fileTag === 'canvas') {
 					glyphId = 'layout-dashboard';
-					injectIcon(f, glyphId);
 				}
+
+				injectIcon(f, glyphId);
 			}
 		});
 		
@@ -134,6 +136,9 @@ export default class FileGlyphs extends Plugin {
 					//glyphId = 'images';
 					//glyphId = 'eclipse';
 					//glyphId = 'logs';
+					break;
+				case '_templates':
+					glyphId = 'life-buoy';
 					break;
 				default:
 					isSpecial = false;
