@@ -117,7 +117,9 @@ export default class FileGlyphs extends Plugin {
 			// ícone de pastas padrão
 			// caso seja só uma pasta sem subdiretórios, recebe o ícone de pasta única
 			// caso contrário, recebe um ícone que indica que a pasta tem subdirs
-			let glyphId: string = hasSubdirs ? 'folders' : 'folder';
+			// TEMPORARIAMENTE COMENTADO ATÉ SER CONSERTADO
+			//let glyphId: string = hasSubdirs ? 'folders' : 'folder';
+			let glyphId = 'folder'
 
 			// decidir o ícone que vai ser atribuído a pasta baseado no nome
 			// e caso nenhum dos casos especiais aconteça, é uma pasta comum
@@ -138,7 +140,9 @@ export default class FileGlyphs extends Plugin {
 					//glyphId = 'logs';
 					break;
 				case '_templates':
-					glyphId = 'life-buoy';
+					//glyphId = 'briefcase-medical';
+					//glyphId = 'save';
+					glyphId = 'save-all';
 					break;
 				default:
 					isSpecial = false;

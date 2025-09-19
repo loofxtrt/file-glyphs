@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 target="/mnt/seagate/obsidian-vaults/plugin-development/.obsidian/plugins/file-glyphs"
-#target="/mnt/seagate/obsidian-vaults/projects/.obsidian/plugins/file-glyphs"
+target="/mnt/seagate/obsidian-vaults/projects/.obsidian/plugins/file-glyphs"
 
 # compila o js e copia os arquivos necessários pro plugin funcionar
 npm run build
