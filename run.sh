@@ -1,7 +1,8 @@
 #!/usr/bin/bash
 
-target="/mnt/seagate/obsidian-vaults/plugin-development/.obsidian/plugins/file-glyphs"
+#target="/mnt/seagate/obsidian-vaults/plugin-development/.obsidian/plugins/file-glyphs"
 target="/mnt/seagate/obsidian-vaults/projects/.obsidian/plugins/file-glyphs"
+target2="/mnt/seagate/obsidian-vaults/central/.obsidian/plugins/file-glyphs"
 
 # compila o js e copia os arquivos necessários pro plugin funcionar
 npm run build
@@ -9,7 +10,11 @@ npm run build
 rm -rf $target
 mkdir -p $target
 
-cp manifest.json main.js styles.css $target
+rm -rf $target2
+mkdir -p $target2
 
-# não precisa copiar o repo inteiro
+cp manifest.json main.js styles.css $target
+cp manifest.json main.js styles.css $target2
+
+# comentado pq não precisa copiar o repo inteiro
 #cp -r ./ $target
