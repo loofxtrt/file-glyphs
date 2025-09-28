@@ -68,41 +68,7 @@ export default class FileGlyphs extends Plugin {
 		this.registerInterval(window.setInterval(() => this.runIconVerification(), 500));
 	}
 
-	runIconVerification() {
-		const directories = document.querySelectorAll('.nav-folder-title');
-		const files = document.querySelectorAll('.nav-file-title');
-
-		files.forEach(f => {
-			const glyphAlreadyAdded = f.querySelector('.glyph');
-			const fileName = f.textContent?.trim() || '';
-
-			const fileTag = f.querySelector('.nav-file-tag')?.textContent?.trim() || '';
-
-			// não é todo arquivo que recebe um ícone. se for receber o id 'bug' deve ser mudado pelo if a baixo
-			// se o ícone passar e não for mudado mesmo assim, algo de errado aconteceu na verificação
-			let glyphId: string = 'bug';
-
-			// definir o ícone (ou a ausência dele) pelo nome do arquivo
-			// diferente de dirs, os files podem ser considerados especiais só por COMEÇAREM com uma palavra reservada
-			// em vez de precisarem ter o exato nome definido como especial
-			//
-			// filetag também é considerado (a tag que aparece ao lado da entrada na árvore, como 'canvas', 'png' etc.)
-			if (!glyphAlreadyAdded) {
-				if (startsWithVariations(fileName, 'main')) {
-					glyphId = 'scroll-text';
-				} else if (startsWithVariations(fileName, 'conventions')) {
-					glyphId = 'library-big';
-				} else if (fileTag && fileTag === 'canvas') {
-					glyphId = 'layout-dashboard';
-				}
-
-				// injetar o ícone caso ele tenha sido definido
-				if (glyphId != 'bug') {
-					injectIcon(f, glyphId);
-				}
-			}
-		});
-		
+	verifyDirectoryIcons(directories: NodeListOf<Element>) {
 		directories.forEach(d => {
 			// variável que se não for nula, significa
 			// que já existe um ícone pra esse elemento, então deve ser ignorado
@@ -144,7 +110,11 @@ export default class FileGlyphs extends Plugin {
 					glyphId = 'traffic-cone';
 					break;
 				case '_templates':
-					glyphId = 'pen-line';
+					//glyphId = 'pen-line';
+					//glyphId = 'syringe';
+					//glyphId = 'recycle';
+					//glyphId = 'layout-template';
+					glyphId = 'text-cursor-input';
 					break;
 				default:
 					isSpecial = false;
@@ -167,5 +137,52 @@ export default class FileGlyphs extends Plugin {
 				}
 			}
 		});
+	}
+
+	verifyFileIcons(files: NodeListOf<Element>) {
+		files.forEach(f => {
+			const glyphAlreadyAdded = f.querySelector('.glyph');
+			const fileName = f.textContent?.trim() || '';
+
+			const fileTag = f.querySelector('.nav-file-tag')?.textContent?.trim() || '';
+
+			// não é todo arquivo que recebe um ícone. se for receber o id 'bug' deve ser mudado pelo if a baixo
+			// se o ícone passar e não for mudado mesmo assim, algo de errado aconteceu na verificação
+			let glyphId: string = 'bug';
+
+			// definir o ícone (ou a ausência dele) pelo nome do arquivo
+			// diferente de dirs, os files podem ser considerados especiais só por COMEÇAREM com uma palavra reservada
+			// em vez de precisarem ter o exato nome definido como especial
+			//
+			// filetag também é considerado (a tag que aparece ao lado da entrada na árvore, como 'canvas', 'png' etc.)
+			if (!glyphAlreadyAdded) {
+				if (startsWithVariations(fileName, 'main')) {
+					glyphId = 'scroll-text';
+				} else if (startsWithVariations(fileName, 'conventions')) {
+					glyphId = 'library-big';
+				} else if (fileTag && fileTag === 'canvas') {
+					glyphId = 'layout-dashboard';
+				}
+
+				// injetar o ícone caso ele tenha sido definido
+				if (glyphId != 'bug') {
+					injectIcon(f, glyphId);
+				}
+			}
+		});
+	}
+
+	runIconVerification() {
+		/**
+		 * verificação principal que chama as funções pra injetar os ícones nos itens da file tree
+		 * a 'verificação' se refere a checagem se um item da árvore já tem ou não um ícone a cada x segundos
+		 * se tiver, não faz nada, se não tiver e o item tiver as propiedades necessárias pra receber um ícone, a injeção é triggada
+		 */
+
+		const directories = document.querySelectorAll('.nav-folder-title');
+		const files = document.querySelectorAll('.nav-file-title');
+		
+		//this.verifyFileIcons(files);
+		this.verifyDirectoryIcons(directories);
 	}
 }

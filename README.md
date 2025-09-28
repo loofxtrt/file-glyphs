@@ -5,6 +5,7 @@
 - [ ] kanban
 - [x] canvas
 - [ ] fix svg não seguindo cor no hover
+- [ ] fix cor do texto de arquivos especiais com faint não sendo mudada no css
   
 compilar e atualizar  
 `bash run.sh`
