@@ -114,7 +114,11 @@ export default class FileGlyphs extends Plugin {
 					//glyphId = 'syringe';
 					//glyphId = 'recycle';
 					//glyphId = 'layout-template';
-					glyphId = 'text-cursor-input';
+					//glyphId = 'text-cursor-input';
+					//glyphId = 'clipboard-paste';
+					glyphId = 'clipboard';
+					//glyphId = 'clipboard-plus';
+					//glyphId = 'clipboard-pen';
 					break;
 				default:
 					isSpecial = false;

@@ -22,6 +22,11 @@
 	font-style: italic;
 
 	/*
+		funciona
+		color: var(--nav-collapse-icon-color) !important;
+	*/
+
+	/*
 		por algum motivo não funciona
 		muted seria o mais apropiado, mas só o faint funciona
 		color: var(--text-muted) !important;
