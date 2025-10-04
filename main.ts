@@ -103,10 +103,19 @@ export default class FileGlyphs extends Plugin {
 				case '_archive':
 					glyphId = 'archive';
 					break;
+				case '_arquivo':
+					glyphId = 'archive';
+					break;
 				case '_attachments':
 					glyphId = 'link-2';
 					break;
+				case '_anexos':
+					glyphId = 'link-2';
+					break;
 				case '_icons':
+					glyphId = 'traffic-cone';
+					break;
+				case '_icones':
 					glyphId = 'traffic-cone';
 					break;
 				case '_templates':
