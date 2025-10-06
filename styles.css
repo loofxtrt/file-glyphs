@@ -18,7 +18,7 @@
     margin-right: 6px;
 }
 
-.faint-entry .glyph svg, .faint-entry {
+/*.faint-entry .glyph svg, .faint-entry {
 	/*font-style: italic;*/
 
 	/*
@@ -37,7 +37,7 @@
 		comentado até a parte do hover ser consertada
 		color: color-mix(in srgb, var(--text-faint) 80%, black 20%);
 	*/
-}
+/*}
 
 /*
 .faint-entry:hover * {
