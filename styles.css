@@ -18,6 +18,16 @@
     margin-right: 6px;
 }
 
+.highlighted-entry .glyph svg {
+	/* isso colore só o ícone, não o texto do item inteiro na file tree */
+	color: var(--color-accent) !important;
+}
+
+.highlighted-entry:hover .glyph svg {
+	/* faz o highlight não sobreescrever a cor de hover no item da file tree */
+    color: var(--color-hover-accent) !important;
+}
+
 /*.faint-entry .glyph svg, .faint-entry {
 	/*font-style: italic;*/
 

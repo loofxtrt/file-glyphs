@@ -2,6 +2,7 @@ import { Plugin, setIcon } from 'obsidian';
 
 // IMPORTANTE:
 // TODOS OS SVGS DEVEM TER A COR DE PREENCHIMENTO currentColor PRA QUE AS CORES DELES SEJAM COERENTES COM OUTROS ÍCONES
+// essas variáveis de svg são só o conteúdo de texto deles
 
 // https://www.svgrepo.com/svg/361368/terminal-linux
 const svgTux = `<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
@@ -11,9 +12,11 @@ const svgTux = `<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo
 const svgKanban = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(180,12.231233,12.554706)"><rect width="5.4802485" height="15.764909" x="14.773044" y="5.2269559"/><rect width="5.480248" height="9.7703323" x="4.6716418" y="11.221533"/></g></svg>`
 
 // ícone de pasta com cadeado do lucide icons modificado e fundido com o svgkanban
-const svgKanbanFolder = `<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-lock-icon lucide-folder-lock" xmlns="http://www.w3.org/2000/svg"><path d="M8.3111295,20H4C2.8954305,20,2,19.104569,2,18V5C2,3.8954305,2.8954305,3,4,3H7.9C8.5796674,2.99334,9.2161976,3.332317,9.59,3.9l0.81,1.2c0.369922,0.5617203,0.997414,0.8998892,1.67,0.9H20c1.104569,0,2,0.8954305,2,2v0.040957"/><rect width="3.6418242" height="10.476355" x="-15.613572" y="-22.207195" style="stroke-width:1.7;stroke-dasharray:none" transform="scale(-1)"/><rect width="3.641824" height="6.4927411" x="-22.326321" y="-18.223581" style="stroke-width:1.7;stroke-dasharray:none" transform="scale(-1)"/></svg>`;
+const svgKanbanFolder = `<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-lock-icon lucide-folder-lock" xmlns="http://www.w3.org/2000/svg"><path d="M4.9779825,20H4C2.8954305,20,2,19.104569,2,18V5C2,3.8954305,2.8954305,3,4,3H7.9C8.5796674,2.99334,9.2161976,3.332317,9.59,3.9l0.81,1.2c0.369922,0.5617203,0.997414,0.8998892,1.67,0.9H20c1.104569,0,2,0.8954305,2,2v0.040957"/><rect width="5" height="10.476355" x="-13.629452" y="-22.207195" style="stroke-width:1.7;stroke-dasharray:none" transform="scale(-1)"/><rect width="5" height="6.4927411" x="-22.326321" y="-18.223581" style="stroke-width:1.7;stroke-dasharray:none" transform="scale(-1)"/></svg>`;
 
-function injectIcon(element: Element, iconId: string, isFaint: boolean = false) {
+// ícone de pasta tbm da do cadeado e fundido com o ícone de database do lucide
+const svgDatabaseFolder = `<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-lock-icon lucide-folder-lock" xmlns="http://www.w3.org/2000/svg"><path d="M7.3501626,20H4C2.8954305,20,2,19.104569,2,18V5C2,3.8954305,2.8954305,3,4,3H7.9C8.5796674,2.99334,9.2161976,3.332317,9.59,3.9l0.81,1.2c0.369922,0.5617203,0.997414,0.8998892,1.67,0.9H20c1.104569,0,2,0.8954305,2,2v0.028903"/><g style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" transform="matrix(0.64878213,0,0,0.64878213,9.0186198,8.3787935)"><ellipse cx="12" cy="5" rx="9" ry="3" style="stroke-width:3.08269896;stroke-dasharray:none"/><path d="m3,5v14a9,3 0 0 0 18,0V5" style="stroke-width:3.08269896;stroke-dasharray:none"/><path d="m3,12a9,3 0 0 0 18,0" style="stroke-width:3.08269896;stroke-dasharray:none"/></g></svg>`;
+function injectIcon(element: Element, iconId: string, newHtmlClass: string = '') {
 	// garantir que o id seja válido pra api do obsidian/lucide
 	if (!iconId.startsWith('lucide-')) {
 		iconId = 'lucide-' + iconId;
@@ -31,20 +34,26 @@ function injectIcon(element: Element, iconId: string, isFaint: boolean = false) 
 	// adicionar o ícone no começo do elemento
 	element.prepend(glyph);
 
-	// adicionar a classe pra deixar o texto todo mais fraco, caso especificado
-	if (isFaint) {
+	// adicionar a classe pra modificar o texto/ícone do item na file tree, caso especificado
+	if (newHtmlClass.trim() != '') {
 		const parent = glyph.parentElement;
-		parent?.classList.add('faint-entry');
+		parent?.classList.add(newHtmlClass);
 	}
 }
 
-function injectSvg(element: Element, svgContents: string) {
+function injectSvg(element: Element, svgContents: string, newHtmlClass: string = '') {
 	const glyph = document.createElement('div');
 	glyph.classList.add('glyph');
 
 	glyph.innerHTML = svgContents;
 
 	element.prepend(glyph);
+
+	// adicionar a classe pra modificar o texto/ícone do item na file tree, caso especificado
+	if (newHtmlClass.trim() != '') {
+		const parent = glyph.parentElement;
+		parent?.classList.add(newHtmlClass);
+	}
 }
 
 function startsWithVariations(target: string, lookFor: string): boolean {
@@ -100,8 +109,11 @@ export default class FileGlyphs extends Plugin {
 			// ícone de pastas padrão
 			// o svgContents serve pra identificar se o ícone vai ser um do lucide normal ou um svg customizado
 			// se o svgContents não estiver vazio, significa que o ícone lucide deve ser ignorado
+			// e o newClass serve pra adicionar uma classe html/css pro arquivo, que o css vai usar pra estilizar de uma forma específica
+			// segue a mesma lógica do svgcontents. se tiver vazio, não aplica 
 			let glyphId = 'folder';
 			let svgContents = '';
+			let newClass = '';
 
 			// decidir o ícone que vai ser atribuído a pasta baseado no nome
 			// e caso nenhum dos casos especiais aconteça, é uma pasta comum
@@ -144,10 +156,14 @@ export default class FileGlyphs extends Plugin {
 			}
 
 			// segunda verificação, agora pra diretórios que COMEÇAM com uma string
-			if (folderName.startsWith('linux')) {
+			if (startsWithVariations(folderName, 'linux')) {
 				svgContents = svgTux;
-			} else if (folderName.startsWith('kanban')) {
+			} else if (startsWithVariations(folderName, 'kanban')) {
 				svgContents = svgKanbanFolder;
+				newClass = 'highlighted-entry';
+			} else if (startsWithVariations(folderName, 'database')) {
+				svgContents = svgDatabaseFolder;
+				newClass = 'highlighted-entry';
 			}
 
 			// inserir o ícone caso ele já não esteja presente
@@ -155,9 +171,9 @@ export default class FileGlyphs extends Plugin {
 			// caso contrário, vai ser um svg customizado
 			if (!glyphAlreadyAdded) {
 				if (svgContents.trim() === '') {
-					injectIcon(d, glyphId, isFaint);
+					injectIcon(d, glyphId, 'faint-entry');
 				} else {
-					injectSvg(d, svgContents);
+					injectSvg(d, svgContents, newClass);
 				}
 			}
 		});
@@ -176,6 +192,7 @@ export default class FileGlyphs extends Plugin {
 			// se o ícone passar e não for mudado mesmo assim, algo de errado aconteceu na verificação
 			let glyphId: string = 'bug';
 			let svgContents: string = '';
+			let newClass: string = 'highlighted-entry';
 
 			// definir o ícone (ou a ausência dele) pelo nome do arquivo
 			// diferente de dirs, os files podem ser considerados especiais só por COMEÇAREM com uma palavra reservada
@@ -199,10 +216,11 @@ export default class FileGlyphs extends Plugin {
 
 				// injetar o ícone caso ele tenha sido definido
 				if (glyphId != 'bug') {
-					injectIcon(f, glyphId);
+					// por padrão todo ícone de arquivo recebe um highlight por ser incomum
+					injectIcon(f, glyphId, newClass);
 				} else if (svgContents != '') {
 					// injetar um svg custom caso o svgcontents não esteja vazio
-					injectSvg(f, svgContents);
+					injectSvg(f, svgContents, newClass);
 				}
 			}
 		});
