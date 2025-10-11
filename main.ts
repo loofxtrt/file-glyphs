@@ -1,4 +1,4 @@
-import { Plugin, setIcon } from 'obsidian';
+import { Plugin, setIcon, TFile } from 'obsidian';
 
 // IMPORTANTE:
 // TODOS OS SVGS DEVEM TER A COR DE PREENCHIMENTO currentColor PRA QUE AS CORES DELES SEJAM COERENTES COM OUTROS ÍCONES
@@ -193,6 +193,27 @@ export default class FileGlyphs extends Plugin {
 			let glyphId: string = 'bug';
 			let svgContents: string = '';
 			let newClass: string = 'highlighted-entry';
+
+			// obter as propriedades pra verificar se o arquivo tem
+			// uma chave com o nome de "kanban-plugin" que tenha o valor "board"
+			// se tiver, significa que é um quadro do plugin kanban
+			// isso aplica o ícone mesmo que o item não comece com um prefixo que indica que ele é um kanban
+			const filePath = f.getAttribute('data-path'); // obter o path completo do arquivo
+			if (filePath) {
+				// se o path exitir, obtém a representação dele
+				const file = this.app.vault.getAbstractFileByPath(filePath);
+				
+				if (file && file instanceof TFile && file.extension === 'md') {
+					// nessa representação, pode existir o metadata, que pode conter o frontmatter
+					const metadata = this.app.metadataCache.getFileCache(file);
+					
+					// nesse frontmatter, se existir a chave esperada com o valor esperado, aplica o ícone
+					const frontmatter = metadata?.frontmatter;
+					if (frontmatter && frontmatter['kanban-plugin'] === 'board') {
+						svgContents = svgKanban;
+					}
+				}
+			}
 
 			// definir o ícone (ou a ausência dele) pelo nome do arquivo
 			// diferente de dirs, os files podem ser considerados especiais só por COMEÇAREM com uma palavra reservada
