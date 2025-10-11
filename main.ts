@@ -158,7 +158,7 @@ export default class FileGlyphs extends Plugin {
 			// segunda verificação, agora pra diretórios que COMEÇAM com uma string
 			if (startsWithVariations(folderName, 'linux')) {
 				svgContents = svgTux;
-			} else if (startsWithVariations(folderName, 'kanban') || startsWithVariations(folderName, 'kn')) {
+			} else if (startsWithVariations(folderName, 'kanban') || startsWithVariations(folderName, 'kbn')) {
 				svgContents = svgKanbanFolder;
 				newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'database')) {
@@ -204,7 +204,7 @@ export default class FileGlyphs extends Plugin {
 				//	glyphId = 'scroll-text';
 				//} else if (startsWithVariations(fileName, 'conventions')) {
 				//	glyphId = 'library-big';
-				if (startsWithVariations(fileName, 'kanban')) {
+				if (startsWithVariations(fileName, 'kanban') || startsWithVariations(fileName, 'kbn')) {
 					svgContents = svgKanban;
 					//glyphId = 'trello';
 					//glyphId = 'arrow-big-right';
