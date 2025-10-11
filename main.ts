@@ -158,7 +158,7 @@ export default class FileGlyphs extends Plugin {
 			// segunda verificação, agora pra diretórios que COMEÇAM com uma string
 			if (startsWithVariations(folderName, 'linux')) {
 				svgContents = svgTux;
-			} else if (startsWithVariations(folderName, 'kanban')) {
+			} else if (startsWithVariations(folderName, 'kanban') || startsWithVariations(folderName, 'kn')) {
 				svgContents = svgKanbanFolder;
 				newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'database')) {
