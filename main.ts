@@ -164,6 +164,10 @@ export default class FileGlyphs extends Plugin {
 			} else if (startsWithVariations(folderName, 'database')) {
 				svgContents = svgDatabaseFolder;
 				newClass = 'highlighted-entry';
+			} else if (startsWithVariations(folderName, 'projetos')) {
+				glyphId = 'hammer';
+			} else if (startsWithVariations(folderName, 'diario')) {
+				glyphId = 'moon';
 			}
 
 			// inserir o ícone caso ele já não esteja presente
