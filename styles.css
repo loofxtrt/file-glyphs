@@ -18,6 +18,13 @@
     margin-right: 6px;
 }
 
+/* fundo que é a cor do accent, mas com 95%~ de transparência */
+/*
+.highlighted-entry {
+	background-color: color-mix(in srgb, var(--color-accent) 5%, transparent) !important;
+}
+*/
+
 .highlighted-entry .glyph svg {
 	/* isso colore só o ícone, não o texto do item inteiro na file tree */
 	color: var(--color-accent) !important;

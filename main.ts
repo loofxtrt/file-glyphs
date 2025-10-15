@@ -16,6 +16,10 @@ const svgKanbanFolder = `<?xml version="1.0" encoding="UTF-8" standalone="no"?><
 
 // ícone de pasta tbm da do cadeado e fundido com o ícone de database do lucide
 const svgDatabaseFolder = `<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-lock-icon lucide-folder-lock" xmlns="http://www.w3.org/2000/svg"><path d="M7.3501626,20H4C2.8954305,20,2,19.104569,2,18V5C2,3.8954305,2.8954305,3,4,3H7.9C8.5796674,2.99334,9.2161976,3.332317,9.59,3.9l0.81,1.2c0.369922,0.5617203,0.997414,0.8998892,1.67,0.9H20c1.104569,0,2,0.8954305,2,2v0.028903"/><g style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" transform="matrix(0.64878213,0,0,0.64878213,9.0186198,8.3787935)"><ellipse cx="12" cy="5" rx="9" ry="3" style="stroke-width:3.08269896;stroke-dasharray:none"/><path d="m3,5v14a9,3 0 0 0 18,0V5" style="stroke-width:3.08269896;stroke-dasharray:none"/><path d="m3,12a9,3 0 0 0 18,0" style="stroke-width:3.08269896;stroke-dasharray:none"/></g></svg>`;
+
+// ícone tool-case que já existe no lucide icons, mas a api do obsidian deve estar desatualizada e não tem ele
+const svgToolCase = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tool-case-icon lucide-tool-case"><path d="M10 15h4"/><path d="m14.817 10.995-.971-1.45 1.034-1.232a2 2 0 0 0-2.025-3.238l-1.82.364L9.91 3.885a2 2 0 0 0-3.625.748L6.141 6.55l-1.725.426a2 2 0 0 0-.19 3.756l.657.27"/><path d="m18.822 10.995 2.26-5.38a1 1 0 0 0-.557-1.318L16.954 2.9a1 1 0 0 0-1.281.533l-.924 2.122"/><path d="M4 12.006A1 1 0 0 1 4.994 11H19a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></svg>`;
+
 function injectIcon(element: Element, iconId: string, newHtmlClass: string = '') {
 	// garantir que o id seja válido pra api do obsidian/lucide
 	if (!iconId.startsWith('lucide-')) {
@@ -114,6 +118,7 @@ export default class FileGlyphs extends Plugin {
 			let glyphId = 'folder';
 			let svgContents = '';
 			let newClass = '';
+			//let newClass = 'faint-entry';
 
 			// decidir o ícone que vai ser atribuído a pasta baseado no nome
 			// e caso nenhum dos casos especiais aconteça, é uma pasta comum
@@ -165,9 +170,15 @@ export default class FileGlyphs extends Plugin {
 				svgContents = svgDatabaseFolder;
 				newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'projetos')) {
-				glyphId = 'hammer';
+				//glyphId = 'hammer';
+				//glyphId = 'vault';
+				svgContents = svgToolCase;
+				newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'diario')) {
 				glyphId = 'moon';
+				newClass = 'highlighted-entry';
+			} else if (startsWithVariations(folderName, 'alimentacao')) {
+				glyphId = 'citrus';
 			}
 
 			// inserir o ícone caso ele já não esteja presente
@@ -175,7 +186,7 @@ export default class FileGlyphs extends Plugin {
 			// caso contrário, vai ser um svg customizado
 			if (!glyphAlreadyAdded) {
 				if (svgContents.trim() === '') {
-					injectIcon(d, glyphId, 'faint-entry');
+					injectIcon(d, glyphId, newClass);
 				} else {
 					injectSvg(d, svgContents, newClass);
 				}
@@ -215,6 +226,16 @@ export default class FileGlyphs extends Plugin {
 					const frontmatter = metadata?.frontmatter;
 					if (frontmatter && frontmatter['kanban-plugin'] === 'board') {
 						svgContents = svgKanban;
+
+						// além do ícone, também adiciona uma nav file tag pra diferenciar do markdown comum
+						// toda div com .nav-file-tag já é identificada como uma pelo obsidian por padrão
+						const existingTag = f.querySelector('.nav-file-tag');
+						if (!existingTag) {
+							const tag = document.createElement('div');
+							tag.classList.add('nav-file-tag');
+							tag.textContent = 'kanban';
+							f.appendChild(tag);
+						}
 					}
 				}
 			}
