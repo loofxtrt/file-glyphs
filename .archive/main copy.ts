@@ -163,14 +163,11 @@ export default class FileGlyphs extends Plugin {
 			// segunda verificação, agora pra diretórios que COMEÇAM com uma string
 			if (startsWithVariations(folderName, 'linux')) {
 				svgContents = svgTux;
-				newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'kanban') || startsWithVariations(folderName, 'kbn')) {
 				svgContents = svgKanbanFolder;
 				newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'database')) {
-				//svgContents = svgDatabaseFolder;
-				//glyphId = 'warehouse';
-				glyphId = 'server';
+				svgContents = svgDatabaseFolder;
 				newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'projetos')) {
 				//glyphId = 'hammer';
@@ -214,8 +211,8 @@ export default class FileGlyphs extends Plugin {
 			// se o ícone passar e não for mudado mesmo assim, algo de errado aconteceu na verificação
 			let glyphId: string = 'bug';
 			let svgContents: string = '';
-			let newClass: string = 'highlighted-entry';
-			//let newClass: string = '';
+			//let newClass: string = 'highlighted-entry';
+			let newClass: string = '';
 
 			// obter as propriedades pra verificar se o arquivo tem
 			// uma chave com o nome de "kanban-plugin" que tenha o valor "board"
