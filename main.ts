@@ -1,4 +1,4 @@
-import { Plugin, setIcon, TFile } from 'obsidian';
+import { parseFrontMatterTags, Plugin, setIcon, TFile } from 'obsidian';
 
 // IMPORTANTE:
 // TODOS OS SVGS DEVEM TER A COR DE PREENCHIMENTO currentColor PRA QUE AS CORES DELES SEJAM COERENTES COM OUTROS ÍCONES
@@ -155,6 +155,10 @@ export default class FileGlyphs extends Plugin {
 					//glyphId = 'clipboard-plus';
 					//glyphId = 'clipboard-pen';
 					break;
+				case '_referenciavel':
+					//glyphId = 'notebook-tabs';
+					glyphId = 'contact';
+					break;
 				default:
 					isSpecial = false;
 					break;
@@ -166,25 +170,31 @@ export default class FileGlyphs extends Plugin {
 				newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'kanban') || startsWithVariations(folderName, 'kbn')) {
 				svgContents = svgKanbanFolder;
-				newClass = 'highlighted-entry';
+				//newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'database')) {
 				//svgContents = svgDatabaseFolder;
 				//glyphId = 'warehouse';
 				glyphId = 'server';
-				newClass = 'highlighted-entry';
+				//newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'projetos')) {
 				//glyphId = 'hammer';
 				//glyphId = 'vault';
 				svgContents = svgToolCase;
 				newClass = 'highlighted-entry';
-			} else if (startsWithVariations(folderName, 'diario')) {
+			} else if (startsWithVariations(folderName, 'diario-onirico')) {
 				glyphId = 'moon';
 				newClass = 'highlighted-entry';
-			} else if (startsWithVariations(folderName, 'alimentacao')) {
-				glyphId = 'citrus';
+			} else if (startsWithVariations(folderName, 'diario-do-sono')) {
+				glyphId = 'cloud-snow';
+				newClass = 'highlighted-entry';
+			//} else if (startsWithVariations(folderName, 'alimentacao')) {
+			//	glyphId = 'citrus';
 			} else if (startsWithVariations(folderName, 'capturas')) {
 				//glyphId = 'lightbulb';
 				glyphId = 'brain-circuit';
+				newClass = 'highlighted-entry';
+			} else if (startsWithVariations(folderName, 'youtube')) {
+				glyphId = 'youtube';
 				newClass = 'highlighted-entry';
 			}
 
@@ -223,15 +233,19 @@ export default class FileGlyphs extends Plugin {
 			// isso aplica o ícone mesmo que o item não comece com um prefixo que indica que ele é um kanban
 			const filePath = f.getAttribute('data-path'); // obter o path completo do arquivo
 			if (filePath) {
-				// se o path exitir, obtém a representação dele
+				// se o path exitir, obtém a representação dele, ignorando arquivos que são templates
 				const file = this.app.vault.getAbstractFileByPath(filePath);
-				
+
+				if (file?.parent?.name == '_templates') {
+					return;
+				}
+
 				if (file && file instanceof TFile && file.extension === 'md') {
 					// nessa representação, pode existir o metadata, que pode conter o frontmatter
 					const metadata = this.app.metadataCache.getFileCache(file);
-					
-					// nesse frontmatter, se existir a chave esperada com o valor esperado, aplica o ícone
 					const frontmatter = metadata?.frontmatter;
+					
+					// nesse frontmatter, se existir a chave esperada com o valor esperado, aplica o ícone de kanban
 					if (frontmatter && frontmatter['kanban-plugin'] === 'board') {
 						svgContents = svgKanban;
 
@@ -256,8 +270,14 @@ export default class FileGlyphs extends Plugin {
 			if (!glyphAlreadyAdded) {
 				//if (startsWithVariations(fileName, 'main')) {
 				//	glyphId = 'scroll-text';
+				//	glyphId = 'newspaper';
 				//} else if (startsWithVariations(fileName, 'conventions')) {
 				//	glyphId = 'library-big';
+				
+				if (fileName.endsWith('.excalidraw')) {
+					glyphId = 'paintbrush-vertical';
+				}
+				
 				if (startsWithVariations(fileName, 'kanban') || startsWithVariations(fileName, 'kbn')) {
 					svgContents = svgKanban;
 					//glyphId = 'trello';
