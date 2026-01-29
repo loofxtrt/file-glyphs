@@ -204,9 +204,9 @@ export default class FileGlyphs extends Plugin {
 			} else if (startsWithVariations(folderName, 'excalidraw')) {
 				svgContents = svgStone;
 				newClass = 'highlighted-entry';
-			} else if (startsWithVariations(folderName, 'recursos')) {
-				svgContents = svgToolbox;
-			}
+			} //else if (startsWithVariations(folderName, 'recursos')) {
+				//svgContents = svgToolbox;
+			//}
 
 			// inserir o ícone caso ele já não esteja presente
 			// se não tiver conteúdo svg definido, vai ser um ícone normal do lucide
