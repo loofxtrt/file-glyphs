@@ -9,3 +9,6 @@ rm -rf $target
 mkdir -p $target
 
 cp manifest.json main.js styles.css $target
+
+# comentado pq não precisa copiar o repo inteiro
+#cp -r ./ $target
