@@ -208,6 +208,8 @@ export default class FileGlyphs extends Plugin {
 				glyphId = 'globe';	
 			} else if (startsWithVariations(folderName, 'musica')) {
 				glyphId = 'music-4';
+			} else if (startsWithVariations(folderName, 'jogos')) {
+				glyphId = 'gamepad-2';
 			}
 			//else if (startsWithVariations(folderName, 'recursos')) {
 				//svgContents = svgToolbox;
