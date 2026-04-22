@@ -170,7 +170,7 @@ export default class FileGlyphs extends Plugin {
 			}
 
 			// segunda verificação, agora pra diretórios que COMEÇAM com uma string
-			if (startsWithVariations(folderName, 'linux')) {
+			if (startsWithVariations(folderName, 'linux-log')) {
 				svgContents = svgTux;
 				newClass = 'highlighted-entry';
 			} else if (startsWithVariations(folderName, 'kanban') || startsWithVariations(folderName, 'kbn')) {
@@ -204,7 +204,12 @@ export default class FileGlyphs extends Plugin {
 			} else if (startsWithVariations(folderName, 'excalidraw')) {
 				svgContents = svgStone;
 				newClass = 'highlighted-entry';
-			} //else if (startsWithVariations(folderName, 'recursos')) {
+			} else if (startsWithVariations(folderName, 'enciclopedia')) {
+				glyphId = 'globe';	
+			} else if (startsWithVariations(folderName, 'musica')) {
+				glyphId = 'music-4';
+			}
+			//else if (startsWithVariations(folderName, 'recursos')) {
 				//svgContents = svgToolbox;
 			//}
 
